@@ -25,16 +25,6 @@ shared_context 'console_helper' do
   let(:stdout) { StringIO.new }
   let(:stderr) { StringIO.new }
 
-  before do |example|
-    $stdout = Tee.open(stdout, stdout: nil)
-    $stderr = Tee.open(stderr, stdout: nil)
-
-    if example.metadata[:show_output]
-      $stdout.add STDOUT
-      $stderr.add STDERR
-    end
-  end
-
   after do
     $stderr = STDERR
     $stdout = STDOUT
