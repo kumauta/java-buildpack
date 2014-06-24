@@ -23,7 +23,10 @@ describe 'compile script', :integration do
   it 'should return zero if success',
      app_fixture: 'integration_valid' do
 
+    puts '----------------------------------------------'
+    puts "#{app_dir}"
     run("bin/compile #{app_dir} #{app_dir + '.cache'}") { |status| expect(status).to be_success }
+    puts '----------------------------------------------'
   end
 
   it 'should fail to compile when no containers detect' do
