@@ -212,7 +212,10 @@ module JavaBuildpack
                       end
 
           @logger.debug { "Proxy: #{proxy_uri.host}, #{proxy_uri.port}, #{proxy_uri.user}, #{proxy_uri.password}" }
-          Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
+          http = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
+          http.use_ssl = true if uri.class == URI::HTTPS
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.class == URI::HTTPS
+          http
         end
 
         def redirect?(response)
@@ -246,8 +249,6 @@ module JavaBuildpack
 
             failures = 0
             begin
-              http.use_ssl = true if uri.class == URI::HTTPS
-              http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.class == URI::HTTPS
               attempt http, request, cached_file
             rescue InferredNetworkFailure, *HTTP_ERRORS => e
               if (failures += 1) > FAILURE_LIMIT
