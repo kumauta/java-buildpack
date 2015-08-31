@@ -201,7 +201,8 @@ module JavaBuildpack
           { read_timeout:    TIMEOUT_SECONDS,
             connect_timeout: TIMEOUT_SECONDS,
             open_timeout:    TIMEOUT_SECONDS,
-            use_ssl:         secure?(rich_uri) }
+            use_ssl:         secure?(rich_uri),
+            verify_mode:     OpenSSL::SSL::VERIFY_NONE }
         end
 
         def proxy(uri)
