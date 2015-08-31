@@ -246,10 +246,8 @@ module JavaBuildpack
 
             failures = 0
             begin
-              if http.address.start_with?("https")
-                http.use_ssl = true
-                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-              end
+              http.use_ssl = true if uri.class == URI::HTTPS
+              http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.class == URI::HTTPS
               attempt http, request, cached_file
             rescue InferredNetworkFailure, *HTTP_ERRORS => e
               if (failures += 1) > FAILURE_LIMIT
