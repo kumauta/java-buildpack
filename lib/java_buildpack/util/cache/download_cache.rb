@@ -114,8 +114,6 @@ module JavaBuildpack
         def attempt(http, request, cached_file)
           downloaded = false
 
-          http.use_ssl = true
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           http.request request do |response|
             @logger.debug { "Status: #{response.code}" }
 
@@ -248,6 +246,10 @@ module JavaBuildpack
 
             failures = 0
             begin
+              if http.address.start_with?("https")
+                http.use_ssl = true
+                http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+              end
               attempt http, request, cached_file
             rescue InferredNetworkFailure, *HTTP_ERRORS => e
               if (failures += 1) > FAILURE_LIMIT
