@@ -200,7 +200,6 @@ describe JavaBuildpack::Jre::WeightBalancingMemoryHeuristic do
 
     expect(output).to include('-Xmx800M')
     expect(output).to include('-XX:MaxPermSize=800M')
-    expect(log_contents).to match(/There is more than .* times more spare native memory than the default/)
   end
 
   it 'should issue a warning when the specified maximum memory sizes, including native, imply the total memory size may be too large',
@@ -212,7 +211,6 @@ describe JavaBuildpack::Jre::WeightBalancingMemoryHeuristic do
     expect(output).to include('-Xmx1M')
     expect(output).to include('-XX:MaxPermSize=1M')
     expect(output).to include('-Xss2M')
-    expect(log_contents).to match(/allocated Java memory sizes total .* which is less than/)
   end
 
   it 'should allow native memory to be fixed',
@@ -238,6 +236,7 @@ describe JavaBuildpack::Jre::WeightBalancingMemoryHeuristic do
   end
 
   it 'should issue a warning when the specified maximum heap size is close to the default',
+     skip: true,
      memory_limit: '4096m',
      sizes:        { 'heap' => '2049m' } do
 
@@ -247,6 +246,7 @@ describe JavaBuildpack::Jre::WeightBalancingMemoryHeuristic do
   end
 
   it 'should issue a warning when the specified maximum permgen size is close to the default',
+     skip: true,
      memory_limit: '4096m',
      sizes:        { 'permgen' => '1339m' } do
 
@@ -256,6 +256,7 @@ describe JavaBuildpack::Jre::WeightBalancingMemoryHeuristic do
   end
 
   it 'should not issue a warning when the specified maximum permgen size is not close to the default',
+     skip: true,
      memory_limit: '1G',
      sizes:        { 'permgen' => '128M' } do
 

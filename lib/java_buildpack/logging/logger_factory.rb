@@ -47,7 +47,7 @@ module JavaBuildpack
       def setup(app_dir)
         @monitor.synchronize do
           @log_file    = app_dir + '.java-buildpack.log'
-          @delegates   = [file_logger, console_logger]
+          @delegates   = [console_logger]
           @initialized = true
         end
       end
