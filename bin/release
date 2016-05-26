@@ -27,4 +27,4 @@ output = JavaBuildpack::Buildpack.with_buildpack(build_dir, 'Release failed with
   buildpack.release
 end
 
-puts "LANG=en_US.utf8 " + output
+puts output
